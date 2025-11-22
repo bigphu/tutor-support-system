@@ -1,9 +1,8 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Navbar from './components/nav-bar/Navbar.jsx';
-import Background from './components/background/Background.jsx';
+// import Background from './components/background/Background.jsx';
 import Footer from './components/footer/Footer.jsx';
 
 import Home from './pages/home/Home.jsx';
@@ -16,12 +15,18 @@ import Page404 from './pages/page-404/Page404.jsx';
 import './App.css';
 
 const App = () => {
-  return (
-    <div className='App' type='module'>
-      <div className='main row'>
-        {useLocation().pathname !== '/404' && <Navbar /> }
+  const location = useLocation();
 
-        {/* {useLocation().pathname !== '/' && <Background />} */}
+  // List of routes where Navbar should show
+  const showNavbarRoutes = ['/', '/dashboard', '/mylinks', '/discovery', '/profile'];
+
+  const showNavbar = showNavbarRoutes.includes(location.pathname);
+
+  return (
+    <div className='App'>
+      <div className='main row'>
+
+        {showNavbar && <Navbar />}
 
         <div className='content-container grid'>
           <Routes>
@@ -30,14 +35,16 @@ const App = () => {
             <Route path='/mylinks' element={<MyLinks />} />
             <Route path='/discovery' element={<Discovery />} />
             <Route path='/profile' element={<Profile />} />
-            <Route path='/404' element={<Page404/>} />
-          </Routes>   
+
+            {/* catch-all */}
+            <Route path='*' element={<Page404 />} />
+          </Routes>
         </div>
 
         <Footer />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default App;
