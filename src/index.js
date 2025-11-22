@@ -6,6 +6,7 @@ import './index.css';
 import './styles/color.css';
 import './styles/grid.css';
 import './styles/typography.css';
+import './styles/interact.css';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';

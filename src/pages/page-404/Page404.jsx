@@ -16,6 +16,7 @@ const Page404 = () => {
         <img src={img404} alt='Error'></img>
 
         <div className='text-big text-dark text-bold'>Error 404: Page not found (T^T) </div>
+
         <Button type='ghost' text='Back to home' onClick={() => navigate('/')} />
       </div>
     </PageLayout>

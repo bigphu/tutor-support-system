@@ -18,7 +18,7 @@ const App = () => {
   const location = useLocation();
 
   // List of routes where Navbar should show
-  const showNavbarRoutes = ['/', '/dashboard', '/mylinks', '/discovery', '/profile'];
+  const showNavbarRoutes = ['/', '/login', '/dashboard', '/mylinks', '/discovery', '/profile'];
 
   const showNavbar = showNavbarRoutes.includes(location.pathname);
 
@@ -31,6 +31,7 @@ const App = () => {
         <div className='content-container grid'>
           <Routes>
             <Route path='/' element={<Home />} />
+            <Route path='/login' element={<Dashboard />} />
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/mylinks' element={<MyLinks />} />
             <Route path='/discovery' element={<Discovery />} />

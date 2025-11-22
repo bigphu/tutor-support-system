@@ -6,16 +6,12 @@
 
   border-radius: 50px;
   padding: 16px 25.6px;
-
-  cursor: pointer;
 }
 
 .button-default {
   background-color: var(--color-primary-accent);
   color: var(--color-surface);
   border: none;
-
-  cursor: pointer;
 }
 
 .button-ghost {
@@ -23,6 +19,4 @@
   color: var(--color-primary-accent);
 
   border: 2px solid var(--color-secondary-accent);
-
-  cursor: pointer;
 }
