@@ -17,7 +17,7 @@ const Page404 = () => {
 
         <div className='text-big text-dark text-bold'>Error 404: Page not found (T^T) </div>
 
-        <Button type='ghost' text='Back to home' onClick={() => navigate('/')} />
+        <Button type='ghost' onClick={() => navigate('/')}>Back to home</Button>
       </div>
     </PageLayout>
   )

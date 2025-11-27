@@ -25,11 +25,11 @@ const App = () => {
   const showBackground = (location.pathname !== '/');
 
   return (
-    <div className='App'>
+    <div className='App bg-white'>
       <div className='main row'>
 
         {showNavbar && <Navbar />}
-        {showBackground && <Background />}
+        {/* {showBackground && <Background />} */}
 
         <div className='content-container grid'>
           <Routes>

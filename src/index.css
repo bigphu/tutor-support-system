@@ -1,3 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;800&family=Roboto:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand Colors */
+    --color-primary: #0b1b43;
+    --color-primary-accent: #032b91;
+    --color-secondary-accent: #1488d8;
+
+    /* Backgrounds */
+    --color-background: #cad3d9;
+    --color-surface: #ffffff;
+    --color-border: #1488d8;
+
+    /* Text Colors */
+    --text-primary: #032b91;
+    --text-accent: #1488d8;
+    --text-placeholder: #cad3d9;
+    --text-dark: #33363f;
+    --text-light: #ffffff;
+  }
+  
+  body {
+    @apply bg-background text-text-dark font-roboto; /* Default base styles */
+  }
+}

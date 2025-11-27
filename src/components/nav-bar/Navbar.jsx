@@ -21,8 +21,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="top-0 sticky w-full bg-slate-900 shadow-md mb-auto">
-      <nav className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6 text-white">
+    <div className="top-0 sticky w-full bg-primary shadow-md mb-auto">
+      <nav className="mx-auto flex h-[10vh] max-w-6xl items-center justify-between px-6 text-white">
         {/* LOGO SECTION */}
         {isOnlyLogo ? (
           <div className="flex-shrink-0">
@@ -95,7 +95,7 @@ const Navbar = () => {
               {/* Profile Button */}
               <NavLink
                 to="/profile"
-                className="rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-white hover:text-blue-500 active:bg-slate-300 hover:shadow-lg hover:shadow-blue-500/30 active:scale-95"
+                className="rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold transition-all hover:bg-blue-700 active:bg-blue-900 active:text-white hover:shadow-lg hover:shadow-blue-600/30 active:scale-95"
               >
                 Profile
               </NavLink>
