@@ -1,64 +1,109 @@
-import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-
-import './Navbar.css';
-
-import logo from '../../assets/logo.png';
-import notificationIcon from '../../assets/notification-icon.svg';
-import profileIcon from '../../assets/profile-icon.svg';
+import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import logo from "../../assets/logo.png"; // Ensure this path is correct
 
 const Navbar = () => {
   const location = useLocation();
 
-  // Routes where navbar should only show the logo
-  const onlyLogoRoutes = ['/login'];
-
+  // Logic: Hide navigation items on specific routes (e.g. Login)
+  const onlyLogoRoutes = ["/login", "/register"];
   const isOnlyLogo = onlyLogoRoutes.includes(location.pathname);
 
-  return (
-    <nav className="navbar-container">
-      {/* LEFT SIDE */}
-      <div className="navbar-left">
-        {isOnlyLogo ? (
-          <img src={logo} alt="Logo" className="navbar-logo" />
-        ) : (
-          <NavLink to="/" className="navbar-icon-home">
-            <img src={logo} alt="Logo" className="navbar-logo clickable" />
-          </NavLink>
-        )}
+  // Styling: Common classes for all links
+  const baseLinkClass =
+    "transition-colors duration-300 decoration-2 underline-offset-8 decoration-blue-500 font-medium";
 
-        {/* Only show links if NOT on login page */}
-        {!isOnlyLogo && (
-          <div className="navbar-links">
-            <NavLink to="/" className="text-small text-light text-bold clickable">Home</NavLink>
-            <NavLink to="/dashboard" className="text-small text-light text-bold clickable">Dashboard</NavLink>
-            <NavLink to="/mylinks" className="text-small text-light text-bold clickable">My Links</NavLink>
-            <NavLink to="/discovery" className="text-small text-light text-bold clickable">Discovery</NavLink>
+  // Logic: Switch classes based on whether the link is Active or Inactive
+  const getLinkClass = ({ isActive }) => {
+    return isActive
+      ? `${baseLinkClass} text-white underline` // Active: Bright White + Underline
+      : `${baseLinkClass} text-slate-300 hover:text-white`; // Inactive: Grey + Hover White
+  };
+
+  return (
+    <div className="top-0 sticky w-full bg-slate-900 shadow-md mb-auto">
+      <nav className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6 text-white">
+        {/* LOGO SECTION */}
+        {isOnlyLogo ? (
+          <div className="flex-shrink-0">
+            <img className="w-16 object-contain" src={logo} alt="Logo" />
+          </div>
+        ) : (
+          <div className="flex-shrink-0">
+            <NavLink to="/">
+              <img className="w-16 object-contain" src={logo} alt="Logo" />
+            </NavLink>
           </div>
         )}
-      </div>
 
-      {/* RIGHT SIDE */}
-      <div className="navbar-right">
+        {/* HIDE LINKS ON LOGIN PAGE */}
         {!isOnlyLogo && (
           <>
-            <img
-            src={notificationIcon}
-            alt="Notifications"
-            className="navbar-notification-icon clickable"
-            />
-            
-            <NavLink to="/profile">
-              <img
-                src={profileIcon}
-                alt="User Profile"
-                className="navbar-profile-icon clickable"
-                />
-            </NavLink>
+            {/* CENTER NAVIGATION */}
+            <div className="hidden flex-1 justify-center md:flex">
+              <ul className="flex items-center gap-8 text-sm">
+                <li>
+                  <NavLink to="/" className={getLinkClass}>
+                    Home
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard" className={getLinkClass}>
+                    Dashboard
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/mylinks" className={getLinkClass}>
+                    Links Center
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/discovery" className={getLinkClass}>
+                    Discovery
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
+
+            {/* RIGHT SIDE ACTIONS */}
+            <div className="flex items-center gap-4">
+              {/* Notification Button */}
+
+              {/* TODO: MAKE THIS BUTTON WORKS */}
+              <button
+                type="button"
+                className="text-slate-300 transition-colors hover:text-white"
+                aria-label="Notifications"
+                onClick=""
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="h-6 w-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                  />
+                </svg>
+              </button>
+
+              {/* Profile Button */}
+              <NavLink
+                to="/profile"
+                className="rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-white hover:text-blue-500 active:bg-slate-300 hover:shadow-lg hover:shadow-blue-500/30 active:scale-95"
+              >
+                Profile
+              </NavLink>
+            </div>
           </>
         )}
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 };
 

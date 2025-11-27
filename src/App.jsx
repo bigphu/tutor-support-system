@@ -1,8 +1,9 @@
 import React from 'react';
+
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Navbar from './components/nav-bar/Navbar.jsx';
-// import Background from './components/background/Background.jsx';
+import Background from './components/background/Background.jsx';
 import Footer from './components/footer/Footer.jsx';
 
 import Home from './pages/home/Home.jsx';
@@ -21,12 +22,14 @@ const App = () => {
   const showNavbarRoutes = ['/', '/login', '/dashboard', '/mylinks', '/discovery', '/profile'];
 
   const showNavbar = showNavbarRoutes.includes(location.pathname);
+  const showBackground = (location.pathname !== '/');
 
   return (
     <div className='App'>
       <div className='main row'>
 
         {showNavbar && <Navbar />}
+        {showBackground && <Background />}
 
         <div className='content-container grid'>
           <Routes>
