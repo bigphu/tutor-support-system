@@ -2,6 +2,8 @@ import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png"; // Ensure this path is correct
 
+import avatar from "../../assets/avatar.png"
+
 const Navbar = () => {
   const location = useLocation();
 
@@ -18,6 +20,13 @@ const Navbar = () => {
     return isActive
       ? `${baseLinkClass} text-white underline` // Active: Bright White + Underline
       : `${baseLinkClass} text-slate-300 hover:text-white`; // Inactive: Grey + Hover White
+  };
+
+  const baseAvatarClass = "w-10 h-10 rounded-full border-2 object-cover mr-3";
+  const getAvatarClass = ({ isActive }) => {
+    return isActive
+    ? `${baseAvatarClass} border-blue-500` // Active: Bright White + Underline
+    : `${baseAvatarClass} border-slate-300 hover:border-white`; // Inactive: Grey + Hover White
   };
 
   return (
@@ -74,7 +83,6 @@ const Navbar = () => {
                 type="button"
                 className="text-slate-300 transition-colors hover:text-white"
                 aria-label="Notifications"
-                onClick=""
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -95,9 +103,9 @@ const Navbar = () => {
               {/* Profile Button */}
               <NavLink
                 to="/profile"
-                className="rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold transition-all hover:bg-blue-700 active:bg-blue-900 active:text-white hover:shadow-lg hover:shadow-blue-600/30 active:scale-95"
+                className={getAvatarClass}
               >
-                Profile
+                <img src={avatar} alt="avatar" className="rounded-full" />
               </NavLink>
             </div>
           </>

@@ -7,7 +7,7 @@ import background from '../../assets/home-background.png';
 
 const Home = () => {
   return (
-    <div className='home-container bg-white'>
+    <div className='home-container'>
       <div className='left-filler large-2 medium-2 small-0'></div>
 
       <div className='text-container large-5 medium-5 small-12'>
