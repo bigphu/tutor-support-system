@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "../../components/page-layout/PageLayout";
 
@@ -8,7 +8,6 @@ const EventCard = ({ item }) => {
 
   const handleDetailClick = (e) => {
     e.preventDefault();
-
     navigate("/subject-view"); // Đổi lại đường dẫn file subject-view ngay đây
   };
 
@@ -127,7 +126,7 @@ const CalendarSection = () => {
     today.getMonth() === month && today.getFullYear() === year;
 
   return (
-    <div className="col-span-6 col-start-2 w-full rounded-3xl bg-white p-6 shadow-xl md:p-8">
+    <div className="w-full rounded-3xl bg-white p-6 shadow-xl md:p-8">
       <div className="mb-6 flex flex-col items-center">
         <h2 className="mb-4 text-3xl font-bold text-blue-900">Calendar</h2>
         <div className="flex select-none items-center gap-8 text-lg font-semibold text-blue-800">
@@ -165,10 +164,7 @@ const CalendarSection = () => {
           const isToday = isCurrentMonth && day === today.getDate();
 
           // Logic tìm môn học trong ngày này
-          // Tạo string dateKey dạng "YYYY-MM-DD" để so sánh với mockData
           const dateKey = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-
-          // Lọc ra các môn học trùng ngày
           const eventsForDay = scheduleEvents.filter((e) => e.date === dateKey);
 
           return (
@@ -189,14 +185,14 @@ const CalendarSection = () => {
                   <div
                     key={evt.id}
                     className="w-full truncate rounded bg-blue-100 px-1 py-0.5 text-left text-[10px] font-medium text-blue-800 md:text-xs"
-                    title={evt.courseName} // Hover vào sẽ thấy tên đầy đủ
+                    title={evt.courseName}
                   >
                     {evt.courseName}
                   </div>
                 ))}
               </div>
 
-              {/* Chỉ báo Today (nếu muốn giữ lại) */}
+              {/* Chỉ báo Today */}
               {isToday && eventsForDay.length === 0 && (
                 <span className="mt-auto hidden text-[10px] text-blue-400 md:block">
                   Today
@@ -213,6 +209,10 @@ const CalendarSection = () => {
 const Dashboard = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // 1. Thêm State cho Search và Sort
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortType, setSortType] = useState("tutor"); // Mặc định sort theo tên Tutor
 
   const todayDateStr = new Date().toLocaleDateString("en-US", {
     weekday: "long",
@@ -272,9 +272,40 @@ const Dashboard = () => {
     fetchTutorData();
   }, []);
 
+  // 2. Logic Xử lý Search và Sort (useMemo)
+  const processedEvents = useMemo(() => {
+    let result = [...events];
+
+    // A. Logic Search
+    if (searchTerm) {
+      const lowerTerm = searchTerm.toLowerCase();
+      result = result.filter(
+        (item) =>
+          item.tutorName?.toLowerCase().includes(lowerTerm) ||
+          item.courseName?.toLowerCase().includes(lowerTerm) ||
+          item.courseId?.toLowerCase().includes(lowerTerm) ||
+          item.studentName?.toLowerCase().includes(lowerTerm),
+      );
+    }
+
+    // B. Logic Sort
+    result.sort((a, b) => {
+      if (sortType === "tutor") {
+        // Sắp xếp theo tên giảng viên
+        return a.tutorName.localeCompare(b.tutorName);
+      } else if (sortType === "course") {
+        // Sắp xếp theo tên môn học
+        return a.courseName.localeCompare(b.courseName);
+      }
+      return 0;
+    });
+
+    return result;
+  }, [events, searchTerm, sortType]);
+
   return (
-    <div className="grid grid-cols-8">
-      <div className="col-span-6 col-start-2 flex w-full flex-col gap-8 py-4">
+    <PageLayout>
+      <div className="flex w-full flex-col gap-8 py-4">
         <div className="w-full rounded-3xl bg-white p-6 shadow-xl md:p-8">
           <h1 className="mb-6 text-center text-2xl font-bold text-blue-900 md:text-3xl">
             Upcoming events
@@ -282,13 +313,21 @@ const Dashboard = () => {
 
           <div className="mb-6 flex flex-col items-center justify-between gap-4 lg:flex-row">
             <div className="flex w-full items-center gap-3 lg:w-auto">
-              <button className="rounded-full border border-blue-400 px-5 py-2 font-bold text-blue-900 transition-colors hover:bg-blue-50">
+              {/* Nút All: Reset Search */}
+              <button
+                onClick={() => setSearchTerm("")}
+                className="rounded-full border border-blue-400 px-5 py-2 font-bold text-blue-900 transition-colors hover:bg-blue-50"
+              >
                 All
               </button>
+
+              {/* Search Input */}
               <div className="flex-1 lg:w-64">
                 <input
                   type="text"
-                  placeholder="Search"
+                  placeholder="Search (Tutor, Course...)"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full rounded-full border border-blue-300 py-2 pl-9 pr-4 text-sm text-blue-900 placeholder-blue-300 focus:border-blue-500 focus:outline-none"
                 />
                 <svg
@@ -308,10 +347,15 @@ const Dashboard = () => {
               </div>
             </div>
 
+            {/* Sort Dropdown */}
             <div className="w-full lg:w-auto">
-              <select className="w-full cursor-pointer appearance-none rounded-full border border-blue-400 bg-white py-2 pl-4 pr-10 text-sm font-bold text-blue-900 hover:bg-gray-50 focus:outline-none lg:w-auto">
-                <option>Sort by tutor names</option>
-                <option>Sort by course name</option>
+              <select
+                value={sortType}
+                onChange={(e) => setSortType(e.target.value)}
+                className="w-full cursor-pointer appearance-none rounded-full border border-blue-400 bg-white py-2 pl-4 pr-10 text-sm font-bold text-blue-900 hover:bg-gray-50 focus:outline-none lg:w-auto"
+              >
+                <option value="tutor">Sort by tutor names</option>
+                <option value="course">Sort by course name</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-blue-900">
                 <svg
@@ -329,16 +373,19 @@ const Dashboard = () => {
             {todayDateStr}
           </h3>
 
+          {/* Render List sau khi đã lọc (processedEvents) */}
           <div className="flex min-h-[100px] flex-col gap-3">
             {loading ? (
               <div className="py-8 text-center text-blue-400">
                 Loading data...
               </div>
-            ) : events.length > 0 ? (
-              events.map((item) => <EventCard key={item.id} item={item} />)
+            ) : processedEvents.length > 0 ? (
+              processedEvents.map((item) => (
+                <EventCard key={item.id} item={item} />
+              ))
             ) : (
               <div className="text-center text-gray-500">
-                No upcoming events.
+                No upcoming events found matching "{searchTerm}".
               </div>
             )}
           </div>
@@ -346,7 +393,7 @@ const Dashboard = () => {
 
         <CalendarSection />
       </div>
-    </div>
+    </PageLayout>
   );
 };
 
