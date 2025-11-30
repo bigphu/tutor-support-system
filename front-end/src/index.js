@@ -11,12 +11,16 @@ import './styles/interact.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { AuthContextProvider } from './context/AuthContext';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <AuthContextProvider>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </AuthContextProvider>
   </React.StrictMode>
 );
 

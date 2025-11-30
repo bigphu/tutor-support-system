@@ -3,7 +3,7 @@ import Button from '../../components/button/Button'
 
 const LinkItem = ({ avatar, courseId, title, details }) => {
   return (
-    <div className="flex items-center bg-white border border-[var(--color-border)] rounded-lg p-4 px-8 shadow-sm hover:shadow-md transition-shadow mb-4">
+    <div className="flex items-center bg-white border border-[var(--color-border)] rounded-2xl p-4 px-8 shadow-sm hover:shadow-md transition-shadow mb-4">
       {/* left: avatar + small label */}
       <div className="flex items-center mr-4">
         <img src={avatar} alt="avatar" className="border-2 border-secondary-accent w-10 h-10 rounded-full object-cover mr-3" />

@@ -39,7 +39,7 @@ const Navbar = () => {
           </div>
         ) : (
           <div className="flex-shrink-0">
-            <NavLink to="/">
+            <NavLink to="/home">
               <img className="w-16 object-contain" src={logo} alt="Logo" />
             </NavLink>
           </div>
@@ -52,7 +52,7 @@ const Navbar = () => {
             <div className="hidden flex-1 justify-center md:flex">
               <ul className="flex items-center gap-8 text-sm">
                 <li>
-                  <NavLink to="/" className={getLinkClass}>
+                  <NavLink to="/home" className={getLinkClass}>
                     Home
                   </NavLink>
                 </li>

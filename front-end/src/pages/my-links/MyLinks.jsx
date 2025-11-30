@@ -34,7 +34,7 @@ const MyLinks = () => {
       <div className="sticky top-52 col-start-2 col-span-2 flex max-h-[28vh] flex-col justify-center gap-2">
 
 
-        <div className="flex flex-col rounded-lg border border-[var(--color-border)] bg-white pt-4 pb-4 pl-6 pr-6 font-bold gap-2">
+        <div className="flex flex-col bg-white rounded-3xl shadow-xl pt-4 pb-4 pl-6 pr-6 font-bold gap-2">
           <div className="flex justify-center text-primary-accent font-semibold">
             Filter & Search
           </div>
@@ -98,7 +98,7 @@ const MyLinks = () => {
       </div>
 
       {/* --- Main Content (The List) --- */}
-      <main className="col-span-4 flex flex-col gap-4">
+      <main className="col-span-4 flex flex-col gap-4 p-8 bg-white rounded-3xl shadow-xl">
         <div className="list">
           {listEntries.map((e) => (
             <LinkItem
